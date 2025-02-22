@@ -28,6 +28,10 @@ interface CharactersState {
   all: Character[];
 }
 
+interface HydrateAction extends PayloadAction<{ characters: CharactersState }> {
+  type: typeof HYDRATE;
+}
+
 const initialCharactersState: CharactersState = {
   all: [],
 };
@@ -41,8 +45,8 @@ export const charactersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(HYDRATE, (state, action) => {
-      const hydratePayload = (action as any).payload;
+    builder.addCase(HYDRATE, (state, action: HydrateAction) => {
+      const hydratePayload = action.payload;
       if (
         hydratePayload.characters &&
         hydratePayload.characters.all &&

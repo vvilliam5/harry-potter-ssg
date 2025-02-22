@@ -1,7 +1,10 @@
 import { MedievalSharp, Rye } from "next/font/google";
 
-const medievalSharp = MedievalSharp({ weight: "400" });
-const rye = Rye({ weight: "400" });
+const medievalSharp = MedievalSharp({
+  weight: "400",
+  subsets: ["latin", "latin-ext"],
+});
+const rye = Rye({ weight: "400", subsets: ["latin", "latin-ext"] });
 
 export default function CharacterInfo({
   name,

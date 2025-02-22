@@ -1,38 +1,43 @@
-import React, { useState } from "react";
+import React from "react";
 import { GetStaticPaths, GetStaticProps } from "next";
 import { reduxWrapper } from "../../store/store";
-import { setCharacters, Character } from "../../store/charactersSlice";
+import { Character } from "../../store/charactersSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../../store/store";
 import Navbar from "../../components/Navbar";
 import { toggleFavorite } from "../../store/favoritesSlice";
 import classNames from "classnames";
 import Link from "next/link";
-import { WindSong, Henny_Penny, MedievalSharp, Rye } from "next/font/google";
+import { WindSong, Henny_Penny } from "next/font/google";
 import CharacterInfo from "../..//components/CharacterInfo";
-const windSong = WindSong({ weight: "400" });
-const hennyPenny = Henny_Penny({ weight: "400" });
-const medievalSharp = MedievalSharp({ weight: "400" });
-const rye = Rye({ weight: "400" });
+const windSong = WindSong({
+  weight: "400",
+  subsets: ["latin", "latin-ext", "vietnamese"],
+});
+const hennyPenny = Henny_Penny({ weight: "400", subsets: ["latin"] });
 
-export default function CharacterDetail({ id }: { id: string }) {
+export default function CharacterDetail({
+  data: character,
+}: {
+  data: Character;
+}) {
   const dispatch = useDispatch();
-  const [a, b] = useState("a");
-  const characters = useSelector((state: AppState) => state.characters.all);
+  //   const characters = useSelector((state: AppState) => state.characters.all);
   const favorites = useSelector(
     (state: AppState) => state.favorites.favoriteNames
   );
 
-  if (!characters.find((character) => character.id === id)) {
+  // if (!characters.find((character) => character.id === id)) {
+  if (!character) {
     return (
       <div>
         <Navbar />
-        <div className="p-4">No character found with index {id}</div>
+        <div className="p-4">No character found</div>
       </div>
     );
   }
 
-  const character = characters.filter((character) => character.id === id)[0];
+  //   const character = characters.filter((character) => character.id === id)[0];
   const isFav = favorites.includes(character.name);
 
   return (
@@ -106,16 +111,16 @@ export const getStaticPaths: GetStaticPaths = async () => {
 };
 
 export const getStaticProps: GetStaticProps = reduxWrapper.getStaticProps(
-  (store) => async (context) => {
+  () => async (context) => {
     const idStr = context.params?.id as string;
     const id = idStr;
-    const resp = await fetch("https://hp-api.onrender.com/api/characters");
+    const resp = await fetch(`https://hp-api.onrender.com/api/character/${id}`);
     const data = await resp.json();
 
-    store.dispatch(setCharacters(data));
+    // store.dispatch(setCharacters(data));
 
     return {
-      props: { id },
+      props: { data: data[0] },
       revalidate: 3600,
     };
   }

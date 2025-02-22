@@ -5,7 +5,10 @@ import { useSelector, useDispatch } from "react-redux";
 import { AppState } from "../store/store";
 import { setHouse } from "../store/houseSlice";
 
-const benne = Benne({ weight: "400" });
+const benne = Benne({
+  weight: "400",
+  subsets: ["kannada", "latin", "latin-ext"],
+});
 
 const POSSIBLE_HOUSES = ["Gryffindor", "Slytherin", "Hufflepuff", "Ravenclaw"];
 
