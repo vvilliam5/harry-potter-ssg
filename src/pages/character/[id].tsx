@@ -100,9 +100,14 @@ export const getStaticPaths: GetStaticPaths = async () => {
   const resp = await fetch("https://hp-api.onrender.com/api/characters");
   const data: Character[] = await resp.json();
 
-  const paths = data.map((character) => ({
-    params: { id: character.id.toString() },
-  }));
+  //   const paths = data.map((character, index) => ({
+  //     params: { id: character.id },
+  //   }));
+  const paths = data
+    .filter((char) => char.id)
+    .map((char) => ({
+      params: { id: char.id as string },
+    }));
 
   return {
     paths,
