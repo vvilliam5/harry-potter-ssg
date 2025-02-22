@@ -25,9 +25,12 @@ export default function Home() {
   return (
     <div>
       <Navbar />
-      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+      <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
         {characters.map((character, index) => (
-          <Link key={`${character.name}-${index}`} href={`/character/${index}`}>
+          <Link
+            key={`${character.name}-${index}`}
+            href={`/character/${character.id}`}
+          >
             <CharacterCard character={character} />
           </Link>
         ))}

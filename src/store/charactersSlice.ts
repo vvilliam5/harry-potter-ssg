@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { HYDRATE } from "next-redux-wrapper";
 
 export interface Character {
+  id: string;
   name: string;
   species: string;
   gender: string;
